@@ -5,6 +5,8 @@
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
 import { slugify } from '~/utils/formatters'
+import { boardModel } from '~/models/boardModel'
+
 const createNew = async (reqBody) => {
   try {
     // Xu ly logic du lieu tuy dac thu du an
@@ -14,13 +16,17 @@ const createNew = async (reqBody) => {
     }
 
     // Goi toi tang Model de xu ly luu ban ghi newBoard vao trong Database
+    const createdBoard = await boardModel.createNew(newBoard)
+
+    // Lay ban ghi board sau khi goi (tuy muc dich du an ma co can buoc nay hay khong)
+    const getNewBoard = await boardModel.findOneById(createdBoard.insertedId.toString())
     // ...
 
     // Lam them cac xu ly logic khac voi cac Colection khac tuy dac thu du an...vv
     // Ban email. notification ve cho admin khi co 1 cai board moi duoc tao
 
     // Tra ket qua ve, trong service luon phai co return
-    return newBoard
+    return getNewBoard
   } catch (error) {throw error}
 }
 
