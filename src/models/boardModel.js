@@ -44,9 +44,19 @@ const findOneById = async (id) => {
   } catch (error) { throw new Error(error) }
 }
 
+// aggregate (query tong hop) de lay toan bo columns va cards thuoc ve board
+const getDetails = async (id) => {
+  try {
+    //Hom nay tam tam thoi giong het ham findOneById - va se update phan aggregate tiep o nhung video toi
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({ _id: new ObjectId(id) })
+    return result
+  } catch (error) { throw new Error(error) }
+}
+
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
-  findOneById
+  findOneById,
+  getDetails
 }
